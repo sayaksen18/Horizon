@@ -1,4 +1,4 @@
-import { genToken } from "../utils/jwt.js";
+import genToken  from "../config/token.js";
 import User from "../models/User.model.js";
 
 

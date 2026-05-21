@@ -1,6 +1,5 @@
 import express from "express";
-import { auth } from "../../client/src/utils/firebase";
-import { googleAuth, logout } from "../controllers/auth.controller";
+import { googleAuth, logout } from "../controllers/auth.controller.js";
 
 const authRouter = express.Router();
 

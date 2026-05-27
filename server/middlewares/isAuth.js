@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const isAuth = async (req, res, next) => {
+export const isAuth = async (req, res, next) => {
     try {
         let {token} = req.cookies;
         if(!token){
@@ -16,5 +16,3 @@ const isAuth = async (req, res, next) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 };
-
-export default isAuth;

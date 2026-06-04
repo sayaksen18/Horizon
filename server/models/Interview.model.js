@@ -55,8 +55,8 @@ const interviewSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        enum:["Incompleted","Completed"],
-        default:"Incompleted"
+        enum:["incompleted","completed"],
+        default:"incompleted"
     },
 },{timestamps:true});
 

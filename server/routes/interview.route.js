@@ -8,7 +8,7 @@ import {finishInterview} from "../controllers/interview.controller.js";
 const interviewRouter = express.Router();
 
 interviewRouter.post("/resume", isAuth, upload.single("resume"), analyzeResume);
-interviewRouter.post("/generate-question", isAuth,generateQuestion);
+interviewRouter.post("/generate-questions", isAuth,generateQuestion);
 interviewRouter.post("/submit-answer", isAuth,submitAnswer);
 interviewRouter.post("/finish", isAuth,finishInterview);
 export default interviewRouter;

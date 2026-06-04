@@ -65,7 +65,7 @@ Return strictly JSON:
 
 export const generateQuestion = async (req, res) => {
   try{
-    const { role, experience, mode ,resumeText,projects,skills} = req.body;
+    let { role, experience, mode ,resumeText,projects,skills} = req.body;
     role = role?.trim();
     experience = experience?.trim();
     mode = mode?.trim();
@@ -294,7 +294,7 @@ export const finishInterview = async (req, res) => {
     const avgCorrectness = totalQuestions ? totalCorrectness / totalQuestions : 0;
 
     interview.finalScore = finalScore;
-    interview.status = "Completed";
+    interview.status = "completed";
     await interview.save();
     return res.status(200).json({
       finalScore : Number(finalScore.toFixed(1)),

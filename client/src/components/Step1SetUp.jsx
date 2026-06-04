@@ -3,7 +3,11 @@ import {FaUserTie,FaBriefcase,FaFileUpload,FaMicrophoneAlt,FaChartLine} from "re
 import { useState } from "react"
 import axios from "axios";
 import { ServerUrl } from "../App.jsx" 
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../redux/userSlice.js";
 const Step1SetUp = ({onStart}) => {
+  const {userData} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [role,setRole] = useState("");
   const [experience,setExperience] = useState("");
   const [mode,setMode] = useState("Technical");
@@ -33,6 +37,21 @@ const Step1SetUp = ({onStart}) => {
       console.error("Resume analysis failed:",err);
       alert("Failed to analyze resume. Please try again.");
       setAnalyzing(false);
+    }
+  }
+  const handleStart = async () =>{
+    setLoading(true);
+    try{
+      const result = await axios.post(`${ServerUrl}/api/interview/generate-questions`,{role, experience, mode, resumeText, projects, skills},{withCredentials:true});
+      console.log(result.data);
+      if(userData){
+        dispatch(setUserData({...userData, credits:result.data.creditsLeft}));
+      }
+      setLoading(false);
+      onStart(result.data);
+    }catch(error){
+      console.log(error);
+      setLoading(false);
     }
   }
   return (
@@ -136,12 +155,13 @@ const Step1SetUp = ({onStart}) => {
             </motion.div>)}
 
 
-            <motion.button disabled={!role || !experience}
+            <motion.button onClick={handleStart}
+            disabled={!role || !experience || loading}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.95 }}
             className="w-full disabled:bg-gray-600 bg-green-600 hover:bg-green-700
             text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-md">
-              Start Interview Practice
+              {loading ? "Starting..." : "Start Interview Practice"}
             </motion.button>
           </div>
         </motion.div>

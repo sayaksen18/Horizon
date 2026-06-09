@@ -318,7 +318,7 @@ export const finishInterview = async (req, res) => {
 export const getMyInterviews = async (req, res) => {
   try{
     const interview = await Interview.find({ userId: req.userId }).sort({ createdAt: -1 }).select("role experience mode finalScore createdAt");
-    return res.status(200).json({interview});
+    return res.status(200).json(interview);
   }
   catch(error){
     return res.status(500).json({ message: `Failed to get interviews: ${error.message}` });

@@ -8,6 +8,8 @@ import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
 
 const Step3Report = ({report}) => {
+  const navigate = useNavigate()
+
   if (!report) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -15,7 +17,7 @@ const Step3Report = ({report}) => {
       </div>
     );
   }
-  const navigate = useNavigate()
+
   const {
     finalScore = 0,
     confidence = 0,
@@ -35,19 +37,21 @@ const Step3Report = ({report}) => {
     { label: "Correctness", value: correctness },
   ];
 
-  let performanceText = "";
-  let shortTagline = "";
-
-  if (finalScore >= 8) {
-    performanceText = "Ready for job opportunities.";
-    shortTagline = "Excellent clarity and structured responses.";
-  } else if (finalScore >= 5) {
-    performanceText = "Needs minor improvement before interviews.";
-    shortTagline = "Good foundation, refine articulation.";
-  } else {
-    performanceText = "Significant improvement required.";
-    shortTagline = "Work on clarity and confidence.";
-  }
+  const performanceSummary =
+    finalScore >= 8
+      ? {
+          performanceText: "Ready for job opportunities.",
+          shortTagline: "Excellent clarity and structured responses.",
+        }
+      : finalScore >= 5
+        ? {
+            performanceText: "Needs minor improvement before interviews.",
+            shortTagline: "Good foundation, refine articulation.",
+          }
+        : {
+            performanceText: "Significant improvement required.",
+            shortTagline: "Work on clarity and confidence.",
+          };
 
   const score = finalScore;
   const percentage = (score / 10) * 100;
@@ -106,18 +110,12 @@ const Step3Report = ({report}) => {
   currentY += 45;
 
   // ================= ADVICE =================
-  let advice = "";
-
-  if (finalScore >= 8) {
-    advice =
-      "Excellent performance. Maintain confidence and structure. Continue refining clarity and supporting answers with strong real-world examples.";
-  } else if (finalScore >= 5) {
-    advice =
-      "Good foundation shown. Improve clarity and structure. Practice delivering concise, confident answers with stronger supporting examples.";
-  } else {
-    advice =
-      "Significant improvement required. Focus on structured thinking, clarity, and confident delivery. Practice answering aloud regularly.";
-  }
+  const advice =
+    finalScore >= 8
+      ? "Excellent performance. Maintain confidence and structure. Continue refining clarity and supporting answers with strong real-world examples."
+      : finalScore >= 5
+        ? "Good foundation shown. Improve clarity and structure. Practice delivering concise, confident answers with stronger supporting examples."
+        : "Significant improvement required. Focus on structured thinking, clarity, and confident delivery. Practice answering aloud regularly.";
 
   doc.setFillColor(255, 255, 255);
   doc.setDrawColor(220);
@@ -223,10 +221,10 @@ const Step3Report = ({report}) => {
 
             <div className="mt-4">
               <p className="font-semibold text-gray-800 text-sm sm:text-base">
-                {performanceText}
+                {performanceSummary.performanceText}
               </p>
               <p className="text-gray-500 text-xs sm:text-sm mt-1">
-                {shortTagline}
+                {performanceSummary.shortTagline}
               </p>
             </div>
           </motion.div>

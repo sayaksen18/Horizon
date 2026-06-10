@@ -349,7 +349,14 @@ export const getInterviewReport = async (req, res) => {
       confidence : Number(avgConfidence.toFixed(1)),
       communication : Number(avgCommunication.toFixed(1)),
       correctness : Number(avgCorrectness.toFixed(1)),
-      questionsWiseScore : interview.questions
+      questionWiseScore : interview.questions.map(q => ({
+        question: q.question,
+        score: q.score || 0,
+        feedback: q.feedback || "",
+        confidence: q.confidence || 0,
+        communication: q.communication || 0,
+        correctness: q.correctness || 0
+      }))
     });
   }catch(error){
     return res.status(500).json({ message: `Failed to get interview report: ${error.message}` });

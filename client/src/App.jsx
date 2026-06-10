@@ -9,7 +9,7 @@ import { setUserData } from './redux/userSlice'
 import InterviewHistory from './pages/InterviewHistory'
 import InterviewReport from './pages/InterviewReport'
 import Pricing from './pages/Pricing'
-export const ServerUrl = "http://localhost:8000"
+export const ServerUrl = "https://horizon-79ib.onrender.com"
 
 const App = () => {
   const dispatch = useDispatch();
